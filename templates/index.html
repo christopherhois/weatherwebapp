@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IsItCloudy.com</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: #ddc34f;
+  color: #333;
+}
+
+header {
+  background-color: #1E90FF;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  animation-name: header-animation;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+
+
+.cloud {
+  
+  position: absolute;
+  top: 50px;
+  left: 20%;
+  animation-name: cloud-animation;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  transform: scale(0.01);
+}
+
+@keyframes cloud-animation {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(800px);
+  }
+}
+
+
+
+
+
+
+@keyframes header-animation {
+  0% {
+    background-color: #1E90FF;
+  }
+  50% {
+    background-color: #0052cc;
+  }
+  100% {
+    background-color: #1E90FF;
+  }
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+nav li a {
+  color: #000000;
+  text-decoration: none;
+}
+
+main {
+  margin: 20px auto;
+  width: 80%;
+}
+
+#weather {
+  border: 1px solid #000000;
+  padding: 20px;
+}
+
+.weather-info p {
+  margin: 0;
+  animation-name: fadein;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+}
+
+.weather-info p span {
+  font-weight: bold;
+}
+
+.weather-icon {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+  vertical-align: middle;
+  animation-name: slidein;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.weather-description {
+  display: inline-block;
+  vertical-align: middle;
+  animation-name: slidein;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.weather-label {
+  margin-right: 10px;
+}
+
+.weather-value {
+  font-weight: bold;
+}
+
+footer {
+  background-color: #86c4c4;
+  color: #333;
+  padding: 10px;
+  text-align: center;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+
+
+    </style>
+  </head>
+  <body>
+
+    
+    <header>
+      <img src="cloudy.png" alt="Cloud" class="cloud">
+     
+      <h1>Hois Weather</h1>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+      <form id="city-form">
+    <input type="text" id="city-input" placeholder="Enter city name">
+    <button type="submit">Get Weather</button>
+  </form>
+
+    </header>
+    <main>
+      <section id="weather">
+        <h2>Current Weather</h2>
+        <div class="weather-info">
+          <p><span class="weather-icon" id="weather-icon"></span><span class="weather-description" id="weather-description"></span></p>
+          <p><span class="weather-label">Temperature:</span><span class="weather-value" id="temperature"></span></p>
+          <p><span class="weather-label">Humidity:</span><span class="weather-value" id="humidity"></span></p>
+          <p><span class="weather-label">Wind Speed:</span><span class="weather-value" id="wind-speed"></span></p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2023 Hois Weather </p>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+      function fetchWeather(city) {
+  const apiKey = '16defe9b517a206ece64c95b32ff23bc';
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const temperature = data.main.temp;
+      const humidity = data.main.humidity;
+      const windSpeed = data.wind.speed;
+
+      document.querySelector('#temperature').textContent = `${temperature}°C`;
+      document.querySelector('#humidity').textContent = `${humidity}%`;
+      document.querySelector('#wind-speed').textContent = `${windSpeed} m/s`;
+    })
+    .catch(error => {
+      console.error('Error fetching weather data:', error);
+    });
+}
+
+document.querySelector('#city-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const city = document.querySelector('#city-input').value;
+  fetchWeather(city);
+});
