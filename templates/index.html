@@ -190,31 +190,4 @@ footer {
       <p>&copy; 2023 Hois Weather </p>
     </footer>
 
-    <script src="script.js"></script>
-
-    <script>
-      function fetchWeather(city) {
-  const apiKey = '16defe9b517a206e';
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      const temperature = data.main.temp;
-      const humidity = data.main.humidity;
-      const windSpeed = data.wind.speed;
-
-      document.querySelector('#temperature').textContent = `${temperature}°C`;
-      document.querySelector('#humidity').textContent = `${humidity}%`;
-      document.querySelector('#wind-speed').textContent = `${windSpeed} m/s`;
-    })
-    .catch(error => {
-      console.error('Error fetching weather data:', error);
-    });
-}
-
-document.querySelector('#city-form').addEventListener('submit', (event) => {
-  event.preventDefault();
-  const city = document.querySelector('#city-input').value;
-  fetchWeather(city);
-});
+  
